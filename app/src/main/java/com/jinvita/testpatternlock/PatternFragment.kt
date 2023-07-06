@@ -21,15 +21,15 @@ class PatternFragment : BottomSheetDialogFragment() {
     private lateinit var shakeAnim: Animation
     override fun getTheme(): Int = R.style.BottomSheetTheme
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), theme)
-        bottomSheetDialog.setOnShowListener {
-            val coordinatorLayout = binding.subLayout.parent as CoordinatorLayout
-            val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(binding.subLayout)
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.peekHeight = binding.subLayout.height
-            coordinatorLayout.parent.requestLayout()
+        return BottomSheetDialog(requireContext(), theme).apply {
+            setOnShowListener {
+                val coordinatorLayout = binding.subLayout.parent as CoordinatorLayout
+                val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(binding.subLayout)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                bottomSheetBehavior.peekHeight = binding.subLayout.height
+                coordinatorLayout.parent.requestLayout()
+            }
         }
-        return bottomSheetDialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class PatternFragment : BottomSheetDialogFragment() {
             patternLockView.clearPattern()
             messageView.run {
                 text = "패턴을 잘못 입력했습니다"
-                messageView.startAnimation(shakeAnim)
+                startAnimation(shakeAnim)
             }
         }
     }
