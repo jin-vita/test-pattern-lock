@@ -1,6 +1,7 @@
 package com.jinvita.testpatternlock
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jinvita.testpatternlock.databinding.FragmentPatternBinding
 
 class PatternFragment : BottomSheetDialogFragment() {
-    private val listener by lazy { requireContext() as DataListener }
+    private lateinit var listener: DataListener
     private val type by lazy { arguments?.getString("type") ?: "login" }
     private val title by lazy { arguments?.getString("title") ?: "간편로그인 패턴입력" }
     private val answer by lazy { arguments?.getString("answer") ?: "" }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is DataListener) listener = context
+    }
 
     override fun getTheme(): Int = R.style.BottomSheetTheme
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
