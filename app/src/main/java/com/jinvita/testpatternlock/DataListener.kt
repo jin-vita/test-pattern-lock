@@ -1,5 +1,5 @@
 package com.jinvita.testpatternlock
 
 interface DataListener {
-    fun onDataReceived(data: String)
+    fun onDataReceived(value: String, type: String = "")
 }

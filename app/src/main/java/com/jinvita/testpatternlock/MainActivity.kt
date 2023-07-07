@@ -9,9 +9,9 @@ import com.jinvita.testpatternlock.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity(), DataListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomFragment: PatternFragment
+    private lateinit var answer: String
+    private lateinit var title: String
     val shakeAnim: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.shake) }
-    lateinit var answer: String
-    lateinit var title: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +38,16 @@ class MainActivity : AppCompatActivity(), DataListener {
         binding.textTitle.text = title
         if (::bottomFragment.isInitialized) bottomFragment.dismiss()
         bottomFragment = PatternFragment()
-        bottomFragment.arguments = Bundle().apply { putString("type", type) }
+        bottomFragment.arguments = Bundle().apply {
+            putString("type", type)
+            putString("title", title)
+            if (type == "login") putString("answer", answer)
+        }
         bottomFragment.show(supportFragmentManager, bottomFragment.tag)
     }
 
-    override fun onDataReceived(data: String) {
-        binding.textTitle.text = data
+    override fun onDataReceived(value: String, type: String) = when (type) {
+        "answer" -> answer = value
+        else -> binding.textTitle.text = value
     }
 }

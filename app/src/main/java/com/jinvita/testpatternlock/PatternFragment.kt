@@ -14,20 +14,24 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jinvita.testpatternlock.databinding.FragmentPatternBinding
 
-class PatternFragment() : BottomSheetDialogFragment() {
-    val type: String by lazy { arguments?.getString("type") ?: "login" }
+class PatternFragment : BottomSheetDialogFragment() {
+    private val listener by lazy { requireContext() as DataListener }
+    private val type by lazy { arguments?.getString("type") ?: "login" }
+    private val title by lazy { arguments?.getString("title") ?: "간편로그인 패턴입력" }
+    private val answer by lazy { arguments?.getString("answer") ?: "" }
+
     override fun getTheme(): Int = R.style.BottomSheetTheme
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return BottomSheetDialog(requireContext(), theme).apply {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = BottomSheetDialog(requireContext(), theme)
+        .apply {
             setOnShowListener {
-                val coordinatorLayout = binding.subLayout.parent as CoordinatorLayout
-                val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(binding.subLayout)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                bottomSheetBehavior.peekHeight = binding.subLayout.height
-                coordinatorLayout.parent.requestLayout()
+                val layout = binding.subLayout
+                BottomSheetBehavior.from(layout).apply {
+                    state = BottomSheetBehavior.STATE_EXPANDED
+                    peekHeight = layout.height
+                }
+                (layout.parent as CoordinatorLayout).parent.requestLayout()
             }
         }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +39,7 @@ class PatternFragment() : BottomSheetDialogFragment() {
     }
 
     private fun initView() = with(binding) {
-        titleView.text = (activity as MainActivity).title
+        titleView.text = title
         patternLockView.addPatternLockListener(object : PatternLockViewListener {
             override fun onStarted() {}
             override fun onCleared() {}
@@ -50,7 +54,7 @@ class PatternFragment() : BottomSheetDialogFragment() {
 
     private fun login(pin: String) = with(binding) {
         println("pin: $pin")
-        if (pin != (activity as MainActivity).answer) {
+        if (pin != answer) {
             patternLockView.clearPattern()
             messageView.run {
                 text = "패턴을 잘못 입력했습니다"
@@ -58,13 +62,13 @@ class PatternFragment() : BottomSheetDialogFragment() {
             }
             return
         }
-        (activity as DataListener).onDataReceived("로그인 성공하였습니다")
+        listener.onDataReceived("로그인 성공하였습니다")
         dismiss()
     }
 
     private fun register(pin: String) {
-        (activity as MainActivity).answer = pin
-        (activity as DataListener).onDataReceived("패턴이 등록되었습니다")
+        listener.onDataReceived(pin, "answer")
+        listener.onDataReceived("패턴이 등록되었습니다")
         dismiss()
     }
 
