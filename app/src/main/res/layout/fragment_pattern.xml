@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#9da8fe">
@@ -28,7 +29,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="간편로그인 패턴입력"
+                    tools:text="간편로그인 패턴입력"
                     android:textColor="@color/white"
                     android:textSize="20sp"/>
 
@@ -40,7 +41,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:gravity="center"
-                    android:text="패턴을 입력하세요."
+                    android:text="패턴을 입력하세요"
                     android:textColor="#FE8418"
                     android:textSize="15sp"/>
 
@@ -76,7 +77,7 @@
                 android:id="@+id/buttonLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="20dp"
+                android:paddingVertical="15dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
