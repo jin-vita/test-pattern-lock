@@ -1,5 +1,5 @@
 package com.jinvita.testpatternlock
 
-interface DataListener {
+interface FragmentListener {
     fun onDataReceived(value: String, type: String = "")
 }

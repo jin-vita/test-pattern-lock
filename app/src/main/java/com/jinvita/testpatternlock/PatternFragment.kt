@@ -16,14 +16,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jinvita.testpatternlock.databinding.FragmentPatternBinding
 
 class PatternFragment : BottomSheetDialogFragment() {
-    private lateinit var listener: DataListener
+    private lateinit var listener: FragmentListener
     private val type by lazy { arguments?.getString("type") ?: "login" }
     private val title by lazy { arguments?.getString("title") ?: "간편로그인 패턴입력" }
     private val answer by lazy { arguments?.getString("answer") ?: "" }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is DataListener) listener = context
+        if (context is FragmentListener) listener = context
     }
 
     override fun getTheme(): Int = R.style.BottomSheetTheme

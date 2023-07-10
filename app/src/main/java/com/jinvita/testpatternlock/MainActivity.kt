@@ -6,7 +6,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.jinvita.testpatternlock.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), DataListener {
+class MainActivity : AppCompatActivity(), FragmentListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomFragment: PatternFragment
     private lateinit var answer: String
