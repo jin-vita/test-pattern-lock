@@ -23,8 +23,7 @@ class PatternFragment : BottomSheetDialogFragment() {
     private var listener: FragmentListener? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is FragmentListener) listener = context
-        else throw RuntimeException("$context must implement FragmentListener")
+        listener = context as? FragmentListener ?: throw RuntimeException("$context must implement FragmentListener")
     }
 
     override fun onDetach() {
