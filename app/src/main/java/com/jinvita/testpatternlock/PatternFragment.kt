@@ -16,14 +16,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jinvita.testpatternlock.databinding.FragmentPatternBinding
 
 class PatternFragment : BottomSheetDialogFragment() {
-    private lateinit var listener: FragmentListener
     private val type by lazy { arguments?.getString("type") ?: "login" }
     private val title by lazy { arguments?.getString("title") ?: "간편로그인 패턴입력" }
     private val answer by lazy { arguments?.getString("answer") ?: "" }
 
+    private var listener: FragmentListener? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentListener) listener = context
+        else throw RuntimeException("$context must implement FragmentListener")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     override fun getTheme(): Int = R.style.BottomSheetTheme
@@ -68,13 +74,13 @@ class PatternFragment : BottomSheetDialogFragment() {
             }
             return
         }
-        listener.onDataReceived("로그인 성공하였습니다")
+        listener?.onDataReceived("로그인 성공하였습니다")
         dismiss()
     }
 
     private fun register(pin: String) {
-        listener.onDataReceived(pin, "answer")
-        listener.onDataReceived("패턴이 등록되었습니다")
+        listener?.onDataReceived(pin, "answer")
+        listener?.onDataReceived("패턴이 등록되었습니다")
         dismiss()
     }
 
